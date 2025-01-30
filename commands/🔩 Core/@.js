@@ -23,15 +23,20 @@ const QUIZ_REWARD = 1;
 const ADMIN_TG_ID = 1350180828;
 const SETUP_FOLDERS = ['🛠️ Setup'];
 const OPEN_TDB_API_URL = 'https://opentdb.com/api.php';
+const META_AI_API_URL = 'https://api.jobians.top/ai/beta.php';
 
+const defaultSettings = {
+  mode: null,
+  category: null
+};
+
+let settings = User.getProp('settings', defaultSettings);
 const quizQuestions = User.getProp('quizQuestions', []);
-const balance = Libs.ResourcesLib.userRes('points');
 
 // Initialize SmartBot with the defined options.
 let smartBot = new SmartBot({
   params: {
-    currency: '💎 Points',
-    balance: balance.value()
+    currency: 'Points'
   },
   // defaultMarkdown: 'HTML',
   // strict_params: true,
@@ -41,7 +46,7 @@ let smartBot = new SmartBot({
 
 let quizTasker = new SmartTasker({
   tasks: quizQuestions,
-  balance: balance.value(),
+  balance: 0,
   smartBot: smartBot
 });
 
@@ -50,8 +55,6 @@ function completeQuiz(quizId) {
   const taskDef = quizTasker.curTask;
 
   if (completedExecution) {
-    balance.set(quizTasker.balance);
-    
     smartBot.run({
       command: 'correctAnswer',
       options: {

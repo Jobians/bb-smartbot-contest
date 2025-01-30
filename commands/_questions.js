@@ -30,8 +30,7 @@ if (quizQuestion) {
     const totalReward = quizStats.totalReward || 0;
     const totalQuestions = completedCount + skippedCount;
     const accuracy = totalQuestions > 0
-      ? ((completedCount / totalQuestions) * 100).toFixed(2)
-      : "0.00";
+      ? ((completedCount / totalQuestions) * 100) : 0;
 
     smartBot.add({
       score: String(completedCount),
@@ -39,11 +38,20 @@ if (quizQuestion) {
       accuracy: String(accuracy),
       totalPoints: String(totalReward)
     });
+    
+    if (totalReward > 0) {
+      TopBoardLib.addScore({
+        value: totalReward,
+        boardName: 'quiz',
+        // maxCount: 20
+      });
+    }
 
     smartBot.run({
       command: '/result'
     });
 
+    User.deleteProp('SmartTasker.default:completedTasks');
     return;
   } else {
     // If no completedTasks, run the quiz command

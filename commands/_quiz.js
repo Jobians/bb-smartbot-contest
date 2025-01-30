@@ -21,7 +21,7 @@ if (content) {
 
   smartBot.add({ message_id: params });
 
-  if (data.response_code === 0) {
+  if (data.response_code === 0 && data.results.length > 0) {
     const generateTaskID = () => 'quiz_' + Math.random().toString(36).substr(2, 9);
 
     const resultsWithTaskID = data.results.map(result => {
@@ -46,6 +46,8 @@ if (content) {
     smartBot.add({ count: resultsWithTaskID.length });
 
     smartBot.run({ command: 'quizBegin' });
+  } else if (data.response_code === 1) {
+    smartBot.run({ command: 'quizRequestEmpty' });
   } else {
     smartBot.run({ command: 'quizRequestFailed' });
   }
@@ -57,11 +59,22 @@ if (isNumeric(params)) {
   const message_id = request.message.message_id;
 
   smartBot.run({ command: 'quizFetching' });
+  
+  let urlParams = `?amount=${params}&encode=url3986`;
+  
+  if (settings.mode) {
+    urlParams += `&difficulty=${settings.mode}`;
+  }
+  
+  if (settings.category) {
+    urlParams += `&category=${settings.category}`;
+  }
 
   HTTP.get({
-    url: OPEN_TDB_API_URL + `?amount=${params}&category=9&difficulty=easy&encode=url3986`,
+    url: OPEN_TDB_API_URL + urlParams,
     success: '/quiz ' + message_id,
-    background: true
+    error: 'httpRequestError',
+    // background: true
   });
 
   return;

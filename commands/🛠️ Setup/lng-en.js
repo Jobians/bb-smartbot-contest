@@ -24,16 +24,24 @@ const LANG = {
     keyboards: {
       next: [
         [{ text: "Next Question 🔄", command: "/questions" }]
-      ]
+      ],
+      back: [
+        [{ text: "⬅️ Back to Questions", command: "/questions" }]
+      ],
     }
   },
-
   titles: {
-    demoTasks: {
-      onBotStart: "Welcome Bonus"
-    }
+    leaderboard: {
+      title: "*🏆 Quiz Leaderboard 🏆*",
+      no_leaderboard: "🏆 *No leaderboard yet!*\n\n🎮 Play some quizzes to get on the board!",
+      user_rank: "📍 *You are ranked #{rank}* with _{points} {currency}_!",
+      top_champion: "👑 *You’re the leaderboard champion!* Keep defending your spot! 🔥",
+      close_to_top: "🚀 *You're so close!* Earn *{points_needed} more {currency}* to take the top spot!",
+      not_ranked_yet: "📢 *You're not ranked yet!*\n🎯 You have _{user_points} {currency}_. Earn *{points_needed} more {currency}* to enter the leaderboard!",
+      no_points: "📢 *You're not on the leaderboard yet!*\n🎯 Play more to secure your spot!",
+      ranks: "{medal} {name} — _{points} {currency}_"
+    },
   },
-
   commands: {
     "/start": {
       text: "*🎉 Welcome to the Trivia Bot! 🎉*\n\nLet’s test your knowledge with some exciting trivia questions! Choose an option below to get started. 🤩",
@@ -42,23 +50,17 @@ const LANG = {
 
     "/quiz": {
       alias: "Start Quiz 🎮",
-      text: "📝 How many questions would you like to answer?",
+      text: "🧠 How many *questions* do you want to answer today?",
       inline_buttons: [
         [
-          { text: "5", command: "/quiz 5" },
-          { text: "10", command: "/quiz 10" },
-          { text: "20", command: "/quiz 20" },
-          { text: "30", command: "/quiz 30" }
+          { text: "5 ⚡", command: "/quiz 5" },
+          { text: "10 💪", command: "/quiz 10" },
+          { text: "20 🚀", command: "/quiz 20" },
+          { text: "30 🔥", command: "/quiz 30" }
         ]
       ]
     },
-
-    "noQuiz": {
-      text: "❎ *No tasks avaible now.* \n\n⏳ Please try again later.",
-      inline_buttons: []
-    },
-
-    // show question for task
+    
     "/questions": {
       edit: true,
       text: "🤔 Here’s your question:\n\n*{question}*\n\nChoose your answer below:",
@@ -71,8 +73,45 @@ const LANG = {
           { text: "{answer3}", command: "{onAnswer3}" },
           { text: "{answer4}", command: "{onAnswer4}" }
         ],
-        [{ text: "I don't know 🤷", command: "onAnswer skip_{quizId}" }],
+        [{ text: "Skip this question ⏭️", command: "onAnswer skip {quizId}" }],
+        [
+          { "text": "Let AI explain 🤖", "command": "onAnswer ask_ai {quizId}" }
+        ]
       ]
+    },
+
+    "/settings": {
+      "edit": "{edit}",
+      "alias": "Settings ⚙️",
+      "text": "⚙️ *Customize Your Quiz Experience!*\n\nChoose your preferred difficulty level and category to get started:",
+      "inline_buttons": [
+        [
+          { "text": "{mode_easy}Easy", "command": "/settings mode easy" },
+          { "text": "{mode_medium}Medium", "command": "/settings mode medium" },
+          { "text": "{mode_hard}Hard", "command": "/settings mode hard" }
+        ],
+        [
+          { "text": "{category_9}General Knowledge", "command": "/settings category 9" },
+          { "text": "{category_18}Science: Computers", "command": "/settings category 18" }
+        ],
+        [
+          { "text": "{category_30}Science: Gadgets", "command": "/settings category 30" },
+          { "text": "{category_15}Entertainment: Video Games", "command": "/settings category 15" }
+        ],
+        [
+          { "text": "{category_17}Science & Nature", "command": "/settings category 17" },
+          { "text": "{category_28}Vehicles", "command": "/settings category 28" }
+        ],
+        [
+          { "text": "{category_19}Science: Mathematics", "command": "/settings category 19" },
+          { "text": "{category_29}Entertainment: Comics", "command": "/settings category 29" }
+        ]
+      ]
+    },
+
+    "/leaderboard": {
+      "alias": "Leaderboard 🏆",
+      text: `{leaderboardText}{ranks}\n{userRankText}`
     },
 
     "skipQuiz": {
@@ -83,7 +122,7 @@ const LANG = {
 
     "correctAnswer": {
       edit: true,
-      text: `🎉 Woohoo! You're correct!\n\n🎊 You just bagged *{amount} points*! Keep it up! 🚀`,
+      text: `🎉 Woohoo! You're correct!\n\n🎊 You just bagged *{amount} {currency}*! Keep it up! 🚀`,
       inline_buttons: "#/keyboards/next"
     },
 
@@ -91,16 +130,6 @@ const LANG = {
       edit: true,
       text: "Oh no! ❌ You missed it!\nThe right answer was: *{correctAnswer}* 😅\n\nDon’t give up, you’re almost there! 💪",
       inline_buttons: "#/keyboards/next"
-    },
-
-    "alreadyRewarded": {
-      edit: true,
-      text: "*✅  Already rewarded!* \n\nTask: {title}"
-    },
-
-    "/skip": {
-      text: "Task skipped. You can start another task from the menu.",
-      keyboard: "🔙 Back"
     },
 
     "quizNotFound": {
@@ -118,15 +147,48 @@ const LANG = {
       "message_id": "{message_id}"
     },
 
-    "quizReqestFailed": {
+    "quizRequestFailed": {
       text: "❌ Oops! Something went wrong while fetching questions. Please try again later.",
       "edit": true,
       "message_id": "{message_id}"
     },
-    
+
+    "quizRequestEmpty": {
+      text: "❌ Not enough questions for your query. Try a smaller number of questions.",
+      "edit": true,
+      "message_id": "{message_id}"
+    },
+
     "quizFetching": {
       text: "⏳ Please hold on while we fetch your quiz questions...",
       "edit": true
+    },
+
+    "aiRequestInProgress": {
+      edit: true,
+      text: "⏳ Your AI response is on the way, please wait a moment...",
+      inline_buttons: "#/keyboards/back"
+    },
+
+    "aiResponseReceived": {
+      edit: true,
+      text: "💡 Here's the Ai explanation you requested: \n\n```🤖Meta-Llama-3.3\n{response}```",
+      message_id: "{message_id}",
+      inline_buttons: "#/keyboards/back"
+    },
+
+    "aiRequestFailed": {
+      edit: true,
+      text: "❌ Oops! Something went wrong while fetching the AI response.",
+      message_id: "{message_id}"
+    },
+
+    "httpRequestError": {
+      text: "🌐 There was an issue with the request. Please try again later.",
+    },
+
+    "!": {
+      text: "🥲 Sorry, an unknown error occurred. Please try again later. 🙏",
     },
 
     "/result": {
