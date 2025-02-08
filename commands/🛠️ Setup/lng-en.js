@@ -4,23 +4,17 @@
   need_reply: false
   auto_retry_time: 
   folder: 🛠️ Setup
-
-  <<ANSWER
-
-  ANSWER
-
-  <<KEYBOARD
-
-  KEYBOARD
+  answer: 
+  keyboard: 
   aliases: 
   group: 
 CMD*/
 
 const LANG_CODE = "en";
+const currentLang = "🇺🇸 English";
 
 const LANG = {
   types: {
-    langVer: "Lang file version: 1.0.0",
     keyboards: {
       next: [
         [{ text: "Next Question 🔄", command: "/questions" }]
@@ -28,9 +22,15 @@ const LANG = {
       back: [
         [{ text: "⬅️ Back to Questions", command: "/questions" }]
       ],
+      language: [
+        [{ text: currentLang, command: "setLng en" },
+        { text: "🇮🇳 Hinglish", command: "setLng hi" }
+        ]
+      ]
     }
   },
   titles: {
+    curLang: currentLang,
     leaderboard: {
       title: "*🏆 Quiz Leaderboard 🏆*",
       no_leaderboard: "🏆 *No leaderboard yet!*\n\n🎮 Play some quizzes to get on the board!",
@@ -44,6 +44,11 @@ const LANG = {
   },
   commands: {
     "/start": {
+      text: "🌍 Please select your language. \n\nCurrent language: \"{curLang}\"",
+      inline_buttons: "#/keyboards/language"
+    },
+    
+    "/main": {
       text: "*🎉 Welcome to the Trivia Bot! 🎉*\n\nLet’s test your knowledge with some exciting trivia questions! Choose an option below to get started. 🤩",
       keyboard: "Start Quiz 🎮\nSettings ⚙️, Leaderboard 🏆"
     },
@@ -60,7 +65,7 @@ const LANG = {
         ]
       ]
     },
-    
+
     "/questions": {
       edit: true,
       text: "🤔 Here’s your question:\n\n*{question}*\n\nChoose your answer below:",
@@ -204,4 +209,3 @@ const LANG = {
 
 // Setup the bot with the language configuration
 smartBot.setupLng(LANG_CODE, LANG);
-

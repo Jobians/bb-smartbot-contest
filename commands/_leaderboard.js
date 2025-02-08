@@ -73,4 +73,3 @@ smartBot.add({
   ranks: ranksText,
   userRankText: userRankText
 });
-

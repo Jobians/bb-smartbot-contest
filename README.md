@@ -1,63 +1,84 @@
-# Trivia Bot - Bots.Business Smartbot Contest
+# BbTriviaSmartBot - chat bot
+It is repository for chat bot: [@BbTriviaSmartBot](https://t.me/BbTriviaSmartBot)
 
-Welcome to the Trivia Bot, built for the **Bots.Business Smartbot Contest**! This bot is a fun and interactive way to test your knowledge on a variety of topics. Whether you're a quiz master or just looking to learn something new, this bot will keep you engaged with exciting trivia questions, real-time leaderboards, and plenty of rewards!
+## What it is?
+This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.
 
-## Features
+[Bots.Business](https://bots.business) - it is probably the first CBPaaS - Chat Bot Platform as a Service.
 
-- **Interactive Quizzes**: 
-  - Choose the number of questions you want to answer (5, 10, 20, 30).
-  - Answer questions in a range of topics and difficulty levels.
-  - Instant feedback on whether you answered correctly or missed the mark.
-  - Skip questions if you're unsure or request an **AI explanation** to dive deeper into the correct answer.
+A CBPaaS is a cloud-based platform that enables developers to create chatbots without needing to build backend infrastructure.
 
-- **Leaderboard**:
-  - Check out the leaderboard to see how you stack up against other players.
-  - See your rank and points in real-time as you climb up the leaderboard.
-  - Earn points as you answer questions and track your progress.
+## Create your own bot for Telegram from this Git repo
 
-- **Customization**:
-  - Select your preferred difficulty (Easy, Medium, Hard) for a challenge that suits you.
-  - Pick from a variety of categories like General Knowledge, Science, Entertainment, and more.
+How to create bot?
+1. Create bot with [@BotFather](https://telegram.me/BotFather) and take Secret Token
+2. Create bot in App and add Secret Token
+3. Add Public Key from App as [Deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) with read access (and write access for bot exporting if you need it)
+4. Do import for this git repo
 
-- **AI-Powered Explanations**:
-  - For any question you want more clarity on, you can ask the AI to explain the answer in detail. It's a great way to learn and understand the reasoning behind the answers.
+Now you can talk with yours new Telegram Bot
 
-- **Smooth Error Handling**:
-  - Don't worry about missing quizzes, failed AI requests, or any other glitches – we've got you covered with clear, friendly error messages.
+See [more](https://help.bots.business/getting-started)
 
-- **Personalized Messages**:
-  - Enjoy custom feedback for different scenarios like quiz results, leaderboard updates, and more.
+## Commands - in commands folder
+File name - it is command name (Bot it can be rewritten in command description)
 
-## Error Handling
+Command can have: `name`, `help`, `aliases` (second names), `answer`, `keyboard`, `scnarios` (for simple logic) and other options.
 
-- **Quiz Not Found**: If the quiz you're looking for isn't available anymore, you'll know right away.
-- **Incorrect Answer**: Don't worry if you get something wrong – the correct answer is always shared so you can learn.
-- **AI Request Failed**: If the AI fails to respond, we'll let you know and keep things moving smoothly.
-- **General Issues**: Any other problems will be handled with helpful messages to get you back on track.
+### Command description
+It is file header:
 
-## Setup Instructions
+    /*CMD
+      command: /test
+      help: this is help for ccommand
+      need_reply: [ true or false here ]
+      auto_retry_time: [ time in sec ]
+      answer: it is example answer for /test command
+      keyboard: button1, button2
+      aliases: /test2, /test3
+    CMD*/
 
-1. **Configure the Bot**:  
-   You'll find all the main settings, like `QUIZ_REWARD` and `ADMIN_TG_ID`, within the bot's `@` command. Adjust them as needed to make the bot work just the way you want.
+See [more](https://help.bots.business/commands)
 
-2. **Run the `/setup` Command**:  
-   Once you've made your changes, run the `/setup` command to get the bot ready with your custom settings.
+### Command body
+It is command code in JavaScript.
+Use Bot Java Script for logic in command.
 
-3. **Start the Bot**:  
-   After you've set things up, the bot will be ready to go and you can start playing trivia right away!
+For example:
+> Bot.sendMessage(2+2);
 
-## Live Demo
+See [more](https://help.bots.business/scenarios-and-bjs)
 
-Want to see the bot in action? Check it out for yourself:
 
-[**Live Demo: Trivia SmartBot**](https://t.me/BbTriviaSmartBot)
+## Libraries - in libs folder
+You can store common code in the libs folder. File name - it is library name.
 
-## Contribution
+For example code in myLib.js:
 
-We'd love to have you contribute to the project! If you have any ideas for improvements, run into bugs, or just want to help out, feel free to open an issue or submit a pull request. Your feedback makes the bot better for everyone!
+    function hello(){ Bot.sendMessage("Hello from lib!") }
+    function goodbye(name){ Bot.sendMessage("Goodbye, " + name) }
 
-## Support
+    publish({
+      sayHello: hello,
+      sayGoodbyeTo: goodbye
+    })
 
-If you find my work helpful, you can support me by donating:
+then you can run in any bot's command:
 
-[![Donate](https://img.shields.io/badge/Donate-Crypto-0070BA.svg)](https://cwallet.com/t/TE6A6KMV)
+    Libs.myLib.hello()
+    Libs.myLib.sayGoodbyeTo("Alice")
+
+See [more](https://help.bots.business/git/library)
+
+## Other bots example
+See other bots examples in the [github](https://github.com/bots-business?utf8=✓&tab=repositories&q=&type=public&language=javascript) or in the [Bot Store](https://bots.business/)
+
+
+## Other help
+[Help.bots.business](https://help.bots.business)
+
+## API
+See [API](https://api.bots.business/docs#/docs/summary)
+
+
+![](https://bots.business/images/web-logo.png)
