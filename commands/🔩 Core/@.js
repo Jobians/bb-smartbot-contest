@@ -4,20 +4,14 @@
   need_reply: false
   auto_retry_time: 
   folder: 🔩 Core
-
-  <<ANSWER
-
-  ANSWER
-
-  <<KEYBOARD
-
-  KEYBOARD
+  answer: 
+  keyboard: 
   aliases: 
   group: 
 CMD*/
 
 // SmartBot Fix
-command.name = message;
+// command.name = message;
 
 const QUIZ_REWARD = 1;
 const ADMIN_TG_ID = 1350180828;

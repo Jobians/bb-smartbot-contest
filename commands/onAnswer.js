@@ -71,7 +71,7 @@ function handleAIRequest(quizId) {
     },
     error: 'httpRequestError',
     success: 'onAnswer ' + message_id,
-    background: true
+    // background: true
   });
 }
 

@@ -4,14 +4,8 @@
   need_reply: false
   auto_retry_time: 
   folder: 🛠️ Setup
-
-  <<ANSWER
-
-  ANSWER
-
-  <<KEYBOARD
-
-  KEYBOARD
+  answer: 
+  keyboard: 
   aliases: 
   group: 
 CMD*/
@@ -28,14 +22,12 @@ const languages = [
     name: "English",
     code: "en",
     flag: "🇺🇸"
+  },
+  {
+    name: "Hinglish",
+    code: "hi",
+    flag: "🇮🇳"
   }
-  // Add more languages here as needed:
-  // Example:
-  // {
-  //   name: "Français",
-  //   code: "fr",
-  //   flag: "🇫🇷"
-  // }
 ];
 
 // Register commands for each language
@@ -52,4 +44,3 @@ Bot.sendMessage(`Multi-Languages installed: ${allLanguages}`);
 Bot.sendMessage(
   "Bot setup done!\n\n*Please go to the /setup command > BJS and on the first line add:*\n\n`return`"
 );
-
